@@ -3,27 +3,27 @@ class Mz < Formula
   homepage "https://mzizi.dev"
   license "Apache-2.0"
 
-  base = "https://github.com/mzizi-dev/mzizi-cli/releases/download/v0.14.1"
+  base = "https://github.com/mzizi-dev/mzizi-cli/releases/download/v0.14.2"
 
   on_macos do
     on_arm do
       url "#{base}/mz-aarch64-apple-darwin"
-      sha256 "86f2e411eee308eb3fb81e8a2d88e194438eb3328dd1fa16b72b766ef40b40fa"
+      sha256 "f1200daa34b94ed18f09575f1f86ea7d29267c279bfff643779d10d227a6d18f"
     end
     on_intel do
       url "#{base}/mz-x86_64-apple-darwin"
-      sha256 "67d6b452ae7bc303c247a1419fa05c101caa48bbad8fa47e66a280ca7d9fc52d"
+      sha256 "916f4a7a774ce1d263ce88e1eeafa74f2c0950c5e4d2d2db623cfb8936419421"
     end
   end
 
   on_linux do
     on_arm do
       url "#{base}/mz-aarch64-unknown-linux-gnu"
-      sha256 "5db9e1833c0f465cabee7ac5a81d43478fcf1f026051e8aa334d4deafc736c59"
+      sha256 "63da29e190c2a586ad2c8bc0ca77d233bc75de784bc972225e78afecd25cc15c"
     end
     on_intel do
       url "#{base}/mz-x86_64-unknown-linux-gnu"
-      sha256 "4dbd40978c50c263f5f262ddfcaed351f57d670febe5b0b1fadc95e70efa70c4"
+      sha256 "03430a58eda031cdecbe891f6ebc310b089180712199e9c712baee9da9ab2047"
     end
   end
 
