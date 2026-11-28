@@ -372,42 +372,28 @@ settled as trunk on 2026-11-23. Every merge to `main` is a release, and the
 semantic title of the merged PR decides the bump. Nobody labels a PR, and
 agents add nothing to a PR to choose a version:
 
-| Event | Bump | Example |
-| ---
+| Event                                        | Bump  | Example         |
+| -------------------------------------------- | ----- | --------------- |
+| A PR titled `fix:`, `chore:`, `docs:`, `ci:` | PATCH | 0.27.3 → 0.27.4 |
+| A PR titled `feat:`                          | MINOR | 0.27.4 → 0.28.0 |
+| A person runs the release with `bump: major` | MAJOR | 0.28.0 → 1.0.0  |
 
-## GitHub environments
+- A breaking-change title (`feat!:`, `fix!:`) is refused by the release
+  workflow: a major is made by hand, never by a merge.
+- Minor and patch have no upper limit: patch 999 is followed by patch
+  1000, minor 999 by minor 1000 (`v0.1000.0` is newer than `v0.999.0`).
+  Versions compare as numbers. Only a major is manual, and the major
+  segment stays 0–999.
+- **Agents never release a major** and never hand-edit a version to one.
+  A major is the owner's call, made from the Actions tab.
+- The version lives in tags; a repo does not commit it back. Where a
+  file carries a version (`package.json`, `Cargo.toml`, ...), CI names
+  the right one.
+- Released versions are never renumbered.
 
-Owner decision, 2026-11-23. A repository uses only these environment names,
-all lowercase, and there is no `staging`:
-
-| Name         | Used for                                                         |
-| ------------ | ---------------------------------------------------------------- |
-| `release`    | Tag-triggered publishing of packages and artifacts to registries |
-| `production` | Deploys                                                          |
-| `publish`    | Publishing docs or pages sites                                   |
-
-- Restrict `release` and `production` to `v*` tags, and to `main` as well
-  where the workflow deploys by push or dispatch from `main`. No required
-  reviewers: releases are automatic.
-- GitHub cannot rename an environment: create the new one, change every
-  workflow, merge, then delete the old one. Never delete one whose secrets
-  you cannot recreate.
-- Environments that Vercel, GitHub Pages, Copilot, Mintlify or another app
-  creates (`Production`, `Preview`, `Production – <project>`, `github-pages`,
-  `copilot`) are theirs; leave them alone. A name fixed by an outside
-  trusted-publisher setting (PyPI's `pypi`) stays as registered.
-- `repo-standards.yml` warns on a workflow that names any other environment.
-
-## Repo-level overrides
-
-A repo can extend or override this file by shipping its own
-`AGENTS.md` at the repo root (some product repos still carry a
-`CLAUDE.md`; read it the same way). Agents should merge the two mentally: **repo-level
-rules override org-level rules when they conflict**, and
-**repo-level rules add to org-level rules when they don't**.
-
-If you're an agent and the repo has no `AGENTS.md` / `CLAUDE.md`,
-these org rules are your ground truth.
+The rules live in one place, the
+[`next-version`](./.github/actions/next-version) action and
+`reusable-trunk-release.yml`, which every repo's release flow pins by SHA.
 
 ---
 
